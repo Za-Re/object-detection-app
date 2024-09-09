@@ -1,0 +1,41 @@
+name: Run Object Detection Workflow
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  run-object-detection:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python environment
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Start FastAPI server
+        run: |
+          nohup uvicorn app.main:app --host 0.0.0.0 --port 8000 &
+          sleep 10
+
+      - name: Run client script to send images
+        run: |
+          cd app
+          python client.py
+
+      - name: Upload predicted images
+        uses: actions/upload-artifact@v3
+        with:
+          name: predicted-images
+          path: images_predicted/
