@@ -1,0 +1,22 @@
+name: "Upload Images for Prediction"
+description: "Uploads all images from the images_uploaded directory for object detection."
+inputs:
+  api_url:
+    description: "The URL of the FastAPI server"
+    required: true
+    default: "http://localhost:8000/predict"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Upload images
+      shell: bash
+      run: |
+        for img in ./images_uploaded/*; do
+          if [[ -f "$img" ]]; then
+            echo "Uploading $img..."
+            curl -X POST "$INPUT_API_URL" \
+              -F "file=@$img" \
+              -H "Content-Type: multipart/form-data"
+          fi
+        done
