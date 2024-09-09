@@ -31,6 +31,9 @@ jobs:
       run: |
         nohup uvicorn app.main:app --host 0.0.0.0 --port 8000 &
 
+    - name: Create images_predicted directory
+      run: mkdir -p ../images_predicted
+
     - name: Upload All Images for Prediction
       uses: ./.github/actions/upload-images
       with:
