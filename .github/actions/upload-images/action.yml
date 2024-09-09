@@ -5,6 +5,10 @@ inputs:
     description: "The URL of the FastAPI server"
     required: true
     default: "http://localhost:8000/predict"
+  model:
+    description: "The model name to use for prediction"
+    required: true
+    default: "yolov3-tiny"
 
 runs:
   using: "composite"
@@ -15,7 +19,7 @@ runs:
         for img in ./images_uploaded/*; do
           if [[ -f "$img" ]]; then
             echo "Uploading $img..."
-            curl -X POST "${{ inputs.api_url }}" \
+            curl -X POST "${{ inputs.api_url }}?model=${{ inputs.model }}" \
               -F "file=@$img" \
               -H "Content-Type: multipart/form-data"
           fi

@@ -38,6 +38,7 @@ jobs:
       uses: ./.github/actions/upload-images
       with:
         api_url: "http://localhost:8000/predict"
+        model: "yolov3-tiny"
 
     - name: Archive predicted images
       run: |
