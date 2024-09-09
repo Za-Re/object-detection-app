@@ -15,7 +15,7 @@ runs:
         for img in ./images_uploaded/*; do
           if [[ -f "$img" ]]; then
             echo "Uploading $img..."
-            curl -X POST "$INPUT_API_URL" \
+            curl -X POST "${{ inputs.api_url }}" \
               -F "file=@$img" \
               -H "Content-Type: multipart/form-data"
           fi
