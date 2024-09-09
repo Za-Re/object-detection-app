@@ -41,8 +41,8 @@ jobs:
         zip -r predicted_images.zip ../images_predicted
       continue-on-error: true
 
-      - name: Upload predicted images artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: predicted-images
-          path: predicted_images.zip
+    - name: Upload predicted images artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: predicted-images
+        path: predicted_images.zip
